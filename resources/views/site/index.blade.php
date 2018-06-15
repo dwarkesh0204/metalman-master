@@ -184,34 +184,7 @@
   </div>
 </div>
 
-<!-- ////////////////////////////////////////////////////////////////////////////--> 
-
-<!-- START Notification Sidebar--> 
-
-<!-- END Notification Sidebar--> 
-
-<!-- BEGIN VENDOR JS--> 
-<script src="app-assets/vendors/js/core/jquery-3.2.1.min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/core/popper.min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/core/bootstrap.min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/prism.min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/jquery.matchHeight-min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/pace/pace.min.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/pickadate/picker.js" type="text/javascript"></script> 
-<script src="app-assets/vendors/js/pickadate/picker.date.js" type="text/javascript"></script> 
-<!-- BEGIN VENDOR JS--> 
-<!-- BEGIN PAGE VENDOR JS--> 
-
-<!-- END PAGE VENDOR JS--> 
-<!-- BEGIN APEX JS--> 
-<script src="app-assets/js/app-sidebar.js" type="text/javascript"></script> 
-<script src="app-assets/js/customizer.js" type="text/javascript"></script> 
-<script src="app-assets/js/components-modal.min.js" type="text/javascript"></script> 
-<!-- END APEX JS--> 
-<!-- BEGIN PAGE LEVEL JS--> 
-
-<script src="app-assets/js/pick-a-datetime.js" type="text/javascript"></script> 
+@section('script')
 <script>
       setTimeout(function() {
         $('#overlay').fadeOut();
@@ -219,6 +192,6 @@
       }, 400);
 
     </script> 
-<!-- END PAGE LEVEL JS-->
+@endsection
 </body>
 </html>

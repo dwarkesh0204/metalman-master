@@ -19,9 +19,9 @@
     <!-- Styles -->
     
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/slider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/swiper.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/slider.css') }}" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Montserrat:300,400,500,600,700,800,900" rel="stylesheet">
 
