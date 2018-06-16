@@ -166,6 +166,7 @@ return [
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        Zizaco\Entrust\EntrustServiceProvider::class,
     ],
 
     /*
@@ -218,6 +219,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 
 
     ],
