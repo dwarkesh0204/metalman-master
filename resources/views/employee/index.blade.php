@@ -101,7 +101,8 @@
               <form action="#">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addemployeeform"><i class="fa fa-plus"></i>Add Employee</button>
                 <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Import Employee</button>
-                <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Export Employee</button>
+                  <a class="btn btn-primary" href="{{ route('employee.getExport') }}"><i class="fa fa-cloud-download"></i>Export Employee</a>
+                  <!-- <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Export Employee</button> -->
               </form>
             </div>
           </div>
@@ -140,14 +141,14 @@
                   </div>
                   <div class="location">
                     <label>Location</label>
-                    {!! Form::select('location', (['' => 'Select Location'] + $location), null, array('class' => 'form-control', 'id' => 'designation', 'data-bv-notempty-message'=>"Please Select Location")) !!}
+                    {!! Form::select('location', (['' => 'Select Location'] + $location), null, array('class' => 'form-control', 'id' => 'location', 'data-bv-notempty-message'=>"Please Select Location")) !!}
                   </div>
                  
                 </div>
                 <div class="modal-footer">
                   <input type="submit" class="btn btn-success" value="Add Employee">
                 </div>
-              </form>
+              {!! Form::close() !!}
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -134,5 +135,32 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Employee Export In Excel.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getExport(){
+        Excel::create('Export data', function($excel) {
+            $excel->sheet('Sheet 1', function($sheet) {
+                $employees = Employee::select("employee_name", "phone_number", "email", 'designation', 'location', 'created_at')->get();
+                    foreach($employees as $employee) {
+                     $data[] = array(
+                        $employee->employee_name,
+                        $employee->phone_number,
+                        $employee->email,
+                        $employee->designation,
+                        $employee->location,
+                        $employee->created_at,
+                    );
+                }
+                $sheet->fromArray($data, null, 'A1', false, false);
+                $headings = array('Employee Name', 'Phone Number', 'Email ID', 'Designation', 'Location', 'Created At');
+                $sheet->prependRow(1, $headings);
+            });
+        })->export('xls');
     }
 }

@@ -24,3 +24,4 @@ Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax'])
 
 Route::resource('employee','EmployeeController');
 Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController@listAjax']);
+Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
