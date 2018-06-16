@@ -100,10 +100,33 @@
             <div class="buttons-group">
               <form action="#">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addemployeeform"><i class="fa fa-plus"></i>Add Employee</button>
-                <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Import Employee</button>
-                  <a class="btn btn-primary" href="{{ route('employee.getExport') }}"><i class="fa fa-cloud-download"></i>Export Employee</a>
-                  <!-- <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Export Employee</button> -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importemployeeform"><i class="fa fa-cloud-download"></i>Import Employee</button>
+                <a class="btn btn-primary" href="{{ route('employee.getExport') }}"><i class="fa fa-cloud-download"></i>Export Employee</a>
               </form>
+            </div>
+          </div>
+        </div>
+        <!-- Add Employee -->
+        <div class="modal fade text-left" id="importemployeeform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <label class="modal-title text-text-bold-600" id="myModalLabel33">Import Employees</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+              </div>
+              {!! Form::open(array('route' => 'employee.importEmployeeSave','method'=>'POST','files'=>'true')) !!}
+                <div class="modal-body">
+                  <div class="employee_import_file">
+                    <fieldset class="form-group">
+                      {{Form::file('employee_import_file',null,array('class' => 'form-control', 'accept' => '.xls,.xlsx'))}}
+                    </fieldset>
+                    <a href="{{asset('/sample_import.xls')}}">Import Sample File</a>
+                  </div>          
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-success" value="Submit">
+                </div>
+              {!! Form::close() !!}
             </div>
           </div>
         </div>

@@ -163,4 +163,34 @@ class EmployeeController extends Controller
             });
         })->export('xls');
     }
+
+    /*
+    Import Employee
+    */
+    public function importEmployeeSave(Request $request)
+    {
+        if($request->hasFile('employee_import_file'))
+        {
+            $extension = $request->file('employee_import_file')->getClientOriginalExtension();
+            if ($extension == "xls" || $extension == "xlsx") {
+                $path = $request->file('employee_import_file')->getRealPath();
+                $data = Excel::load($path, function($reader) {})->get();
+                if(!empty($data) && $data->count())
+                {
+                    foreach($data->toArray() as $key=>$value)
+                    {
+                        if(!empty($value))
+                        {
+                            Employee::create($value);
+                        }
+                    }
+                }
+            }
+            else {
+                return redirect()->route('employee.index')->with('flash_message','Please Insert Excel File.');
+            }
+        }
+        
+        return redirect()->route('employee.index')->with('flash_message','Employee imported successfully.');  
+    }
 }
