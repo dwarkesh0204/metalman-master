@@ -1,9 +1,20 @@
-@extends('layouts.app')
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Login | Metalman Auto</title>
+<link rel="shortcut icon" href="{{asset('/img/ico/favicon.png')}}">
+<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-reset.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{asset('/css/swiper.min.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('/css/slider.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('/css/custom.css')}}" type="text/css">
+</head>
 
-@section('content')
+<body class="login-page">
+<div id="overlay"> <img src="{{asset('/img/preloader.gif')}}" alt=""> </div>
 
-<!-- <div id="overlay"> <img src="{{asset('img/preloader.gif')}}" alt=""> </div> -->
 <div id="metalman">
     <div class="login-page">
         <div class="row">
@@ -58,6 +69,10 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('js/core/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/core/popper.js') }}"></script>
+    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/swiper.min.js') }}"></script>
 <script type = 'text/javascript'>
     var Swiper = new Swiper('.swiper-container', {
         nextButton: '.swiper-button-next',
@@ -75,6 +90,6 @@
         $('#overlay').fadeOut();
         $('#overlay').delay(150).fadeOut('slow');
       }, 400);
-
- </script>
-@endsection
+</script>
+</body>
+</html>

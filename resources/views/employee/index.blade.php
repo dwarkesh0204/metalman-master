@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-<title>Sites | Metalman Auto</title>
+<title>Employee | Metalman Auto</title>
 <link rel="shortcut icon" href="{{asset('/img/ico/favicon.png')}}">
 <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Montserrat:300,400,500,600,700,800,900" rel="stylesheet">
 <!-- BEGIN VENDOR CSS-->
@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/css/perfect-scrollbar.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/css/prism.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/css/pickadate/pickadate.css')}}">
+<link rel="stylesheet" href="{{asset('/css/sweetalert2.min.css')}}">
 
 <link href="{{asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
 
@@ -49,7 +50,7 @@
           <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
             <li class="nav-item active"><a href="dashboard.html"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a> </li>
             <li class="nav-item"><a href="{{ url('/site') }}"><i class="ft-sidebar"></i><span data-i18n="" class="menu-title">Sites</span></a> </li>
-            <li class="nav-item"><a href="{{ url('/employee') }}"><i class="ft-user"></i><span data-i18n="" class="menu-title">Employee</span></a> </li>
+            <li class="nav-item"><a href="employee.html"><i class="ft-user"></i><span data-i18n="" class="menu-title">Employee</span></a> </li>
             <li class="nav-item"><a href="activities.html"><i class="ft-activity"></i><span data-i18n="" class="menu-title">Activity &amp; Report</span></a> </li>
               <li class="nav-item"><a href="create-invite.html"><i class="ft-inbox"></i><span data-i18n="" class="menu-title">Create Invite</span></a> </li>
                <li class="nav-item"><a href="venues.html"><i class="ft-map-pin"></i><span data-i18n="" class="menu-title">Venues</span></a> </li>
@@ -93,53 +94,113 @@
         <!-- Venue, Checked In Visitors, Checked In Members, Firelist -->
         <div class="row">
           <div class="col-md-4">
-            <div class="content-header">Sites</div>
+            <div class="content-header">Employee</div>
           </div>
           <div class="col-md-8 text-right">
             <div class="buttons-group">
               <form action="#">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addsiteform"><i class="fa fa-plus"></i>Add Site</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addemployeeform"><i class="fa fa-plus"></i>Add Employee</button>
+                <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Import Employee</button>
+                <button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>Export Employee</button>
               </form>
             </div>
           </div>
         </div>
-        <!-- Add Site Form -->
-        <div class="modal fade text-left" id="addsiteform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+        <!-- Add Employee -->
+        <div class="modal fade text-left" id="addemployeeform" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <label class="modal-title text-text-bold-600" id="myModalLabel33">Add Site</label>
+                <label class="modal-title text-text-bold-600" id="myModalLabel33">Add Employee</label>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
               </div>
-              {!! Form::open(array('route' => 'site.store','method'=>'POST','files'=>'true')) !!}
+              {!! Form::open(array('route' => 'employee.store','method'=>'POST','files'=>'true')) !!}
                 <div class="modal-body">
                   <div class="sitename">
                     <fieldset class="form-group">
-                      <label for="sitename">Site Name</label>
-                      <input type="text" class="form-control" id="sitename" name="name" placeholder="Enter Site Name">
+                      <label for="sitename">Employee Name</label>
+                      <input type="text" class="form-control" name="employee_name" id="sitename" placeholder="Enter Employee Name">
                     </fieldset>
                   </div>
-                  <div class="address">
-                    <fieldset class="form-group">
-                      <label for="adress">Address</label>
-                      <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address"></textarea>
+                  <div class="phonenumber">
+                     <fieldset class="form-group">
+                      <label for="phoneno">Phone Number</label>
+                      <input type="number" class="form-control" id="phoneno" name="phone_number" placeholder="Enter Phone Number">
                     </fieldset>
                   </div>
-                   <div class="visitor-name">
-                    <label>State</label>
-                    
-                    {!! Form::select('state', (['' => 'Select a State'] + $state), null, array('class' => 'form-control', 'id' => 'state', 'data-bv-notempty-message'=>"Please Select State")) !!}
+                   <div class="email-id">
+                  <fieldset class="form-group">
+                      <label for="email">Email ID</label>
+                      <input type="email" class="form-control" name="email" placeholder="Enter Email ID">
+                    </fieldset>
                   </div>
-                  <div class="host-name">
-                    <label>City</label>
-                    {!! Form::select('city', (['' => 'Select a City'] + $city), null, array('class' => 'form-control', 'id' => 'city', 'data-bv-notempty-message'=>"Please Select City")) !!}
+                  <div class="designation mb-2">
+                    <label>Designation</label>
+                    {!! Form::select('designation', (['' => 'Select Designation'] + $designation), null, array('class' => 'form-control', 'id' => 'designation', 'data-bv-notempty-message'=>"Please Select Designation")) !!}
+                  </div>
+                  <div class="location">
+                    <label>Location</label>
+                    {!! Form::select('location', (['' => 'Select Location'] + $location), null, array('class' => 'form-control', 'id' => 'designation', 'data-bv-notempty-message'=>"Please Select Location")) !!}
                   </div>
                  
                 </div>
                 <div class="modal-footer">
-                  <input type="submit" class="btn btn-success" value="Add Site">
+                  <input type="submit" class="btn btn-success" value="Add Employee">
                 </div>
-              {!! Form::close() !!}
+              </form>
+            </div>
+          </div>
+        </div>
+                <!-- Add as venue Admin -->
+        <div class="modal fade text-left" id="addadmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <label class="modal-title text-text-bold-600" >Add as Venue Admin</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+              </div>
+              <form action="#">
+                <div class="modal-body">
+                   <div class="visitor-name">
+                    <label>Site</label>
+                    <select class="form-control">
+                      <option>Select Site</option>
+                      <option>Metalman Auto Head Office</option>
+                      <option>Metalman Auto Head Office</option>
+                     <option>Metalman Auto Head Office</option>
+                      <option>Metalman Auto Head Office</option>
+                      <option>Metalman Auto Head Office</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-success" value="Add">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Remove as venue Admin -->
+        <div class="modal fade text-left" id="removeadmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <label class="modal-title text-text-bold-600" >Remove as Venue Admin</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+              </div>
+              <form action="#">
+                <div class="modal-body">
+                   <div class="visitor-name">
+                    <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+                              <input id="notifications1" checked type="checkbox" class="custom-control-input cz-bg-image-display">
+                              <label for="notifications1" class="custom-control-label">Metalman Auto Head Office</label>
+                        </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-success" value="Remove">
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -174,16 +235,17 @@
                 </div> -->
                 <div class="card-body">
                   <div class="card-block">
-                    <table class="table table-responsive-md text-center" id="site-table">
+                    <table class="table table-responsive-md text-center" id="employee-table">
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>Site Name</th>
-                          <th>Address</th>
-                          <th>City</th>
-                          <th>State</th>
-                          <!-- <th>Actions</th> -->
+                          <th>Name</th>
+                          <th>Phone Number</th>
+                          <th>Email ID</th>
+                          <th>Designation</th>
+                          <th>Location</th>
                           <th>Created At</th>
+                          <!-- <th>Actions</th> -->
                         </tr>
                       </thead>
                       <tbody>
@@ -201,6 +263,9 @@
       
     </div>
   </div>
+    <footer class="footer footer-static footer-light">
+      <p class="clearfix text-muted text-sm-center px-2"><span>Copyright  &copy; 2018 <a href="#" class="text-bold-800 dark-blue">Metalman Auto </a>, All rights reserved. </span></p>
+    </footer>
 </div>
 
 <!-- ////////////////////////////////////////////////////////////////////////////--> 
@@ -218,7 +283,8 @@
 <script src="{{asset('/js/jquery.matchHeight-min.js')}}" type="text/javascript"></script> 
 <script src="{{asset('/js/pace/pace.min.js')}}" type="text/javascript"></script> 
 <script src="{{asset('/js/pickadate/picker.js')}}" type="text/javascript"></script> 
-<script src="{{asset('/js/pickadate/picker.date.js')}}" type="text/javascript"></script> 
+<script src="{{asset('/js/pickadate/picker.date.js')}}" type="text/javascript"></script>
+<!-- <script src="{{asset('/js/sweetalert2.min.js')}}" type="text/javascript"></script> -->
 <!-- BEGIN VENDOR JS--> 
 <!-- BEGIN PAGE VENDOR JS--> 
 
@@ -231,8 +297,8 @@
 <!-- BEGIN PAGE LEVEL JS--> 
 
 <script src="{{asset('/js/pick-a-datetime.js')}}" type="text/javascript"></script> 
-<script  src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-<script  src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+<script  src="{{ asset('/js/jquery.dataTables.min.js') }}"></script>
+<script  src="{{ asset('/js/dataTables.bootstrap.min.js') }}"></script>
 
 <script>
       setTimeout(function() {
@@ -250,19 +316,20 @@ jQuery(document).ready(function ($) {
     });
 
     //Site Table
-    $('#site-table').DataTable({
+    $('#employee-table').DataTable({
         processing: true,
         serverSide: true,
         stateSave: true,
         ajax: {
-            url: '{!! route('site.listAjax') !!}',
+            url: '{!! route('employee.listAjax') !!}',
         },
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'address', name: 'address' },
-            { data: 'state', name: 'state' },
-            { data: 'city', name: 'city' },
+            { data: 'employee_name', name: 'employee_name' },
+            { data: 'phone_number', name: 'phone_number' },
+            { data: 'email', name: 'email' },
+            { data: 'designation', name: 'designation' },
+            { data: 'location', name: 'location' },
             { data: 'created_at', name: 'created_at'},
             /*{ data: 'id', name: 'actions'},*/
         ],

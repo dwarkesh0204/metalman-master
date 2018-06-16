@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Site;
+use App\Models\Employee;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class SiteController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,11 +27,11 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $state = array('Maharashtra' => 'Maharashtra', 'Punjab' => 'Punjab', 'Rajasthan' => 'Rajasthan', 'Gujarat' => 'Gujarat', 'Arunachal Pradesh' => 'Arunachal Pradesh');
+        $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
 
-        $city = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+        $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
         
-        return view('site.index', compact('state', 'city'));
+        return view('employee.index', compact('designation', 'location'));
     }
 
     
@@ -40,7 +40,7 @@ class SiteController extends Controller
 
         if (\Request::ajax())
         {
-            return DataTables::of(Site::orderBy('id','DESC')->get())->make(true);
+            return DataTables::of(Employee::orderBy('id','DESC')->get())->make(true);
         }
         else
         {
@@ -54,11 +54,11 @@ class SiteController extends Controller
      */
     public function create()
     {
-        $state = array('Maharashtra' => 'Maharashtra', 'Punjab' => 'Punjab', 'Rajasthan' => 'Rajasthan', 'Gujarat' => 'Gujarat', 'Arunachal Pradesh' => 'Arunachal Pradesh');
+        $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
 
-        $city = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+        $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
 
-        return view('site.create', compact('state', 'city'));
+        return view('employee.create', compact('designation', 'location'));
     }
 
     /**
@@ -70,22 +70,24 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'address'=>'required',
-            'state'=>'required',
-            'city'=>'required',
+            'employee_name' => 'required',
+            'phone_number'=>'required',
+            'email'=>'required',
+            'designation'=>'required',
+            'location'=>'required',
         ]);
 
-        $site = new Site();
-        $site->name       = $request->name;
-        $site->address    = $request->address;
-        $site->state      = $request->state;
-        $site->city       = $request->city;
-        $site->created_at = Carbon::now();
-        $site->updated_at = Carbon::now();
-        $site->save();
+        $employee = new Employee();
+        $employee->employee_name = $request->employee_name;
+        $employee->phone_number  = $request->phone_number;
+        $employee->email         = $request->email;
+        $employee->designation   = $request->designation;
+        $employee->location      = $request->location;
+        $employee->created_at    = Carbon::now();
+        $employee->updated_at    = Carbon::now();
+        $employee->save();
 
-         return redirect()->route('site.index')->with('flash_message','Site created successfully');
+         return redirect()->route('employee.index')->with('flash_message','Employee created successfully');
 
     }
 

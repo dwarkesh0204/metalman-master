@@ -30,5 +30,8 @@
     <!-- main menu footer--> 
   </div>
   <!-- / main menu--> 
+@section('script')
+<script src="{{asset('/js/app-sidebar.js')}}" type="text/javascript"></script>
 <script type = 'text/javascript'>
 </script>
+@endsection

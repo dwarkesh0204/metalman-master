@@ -20,3 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('site','SiteController');
+Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax']);
+
+Route::resource('employee','EmployeeController');
+Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController@listAjax']);
