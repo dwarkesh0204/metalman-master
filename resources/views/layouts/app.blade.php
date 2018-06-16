@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/pickadate/pickadate.css')}}">
 <!-- END VENDOR CSS-->
 
-<link href="{{asset('css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{asset('css/jquery.dataTables.css') }}" rel="stylesheet">
 
 <!-- BEGIN APEX CSS-->
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/app.css')}}">
@@ -79,7 +79,7 @@
               </a>
               <div ngbdropdownmenu="" aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-right"><a href="profile.html" class="dropdown-item py-1"><i class="ft-user mr-2"></i><span>Profile</span></a>
                 <div class="dropdown-divider"></div>
-                <a href="index.html" class="dropdown-item"><i class="ft-power mr-2"></i><span>Logout</span></a> </div>
+                <a href="{{url('/logout')}}" class="dropdown-item"><i class="ft-power mr-2"></i><span>Logout</span></a> </div>
             </li>
           </ul>
         </div>
@@ -126,8 +126,9 @@
 
 <script src="{{asset('app-assets/js/pick-a-datetime.js')}}" type="text/javascript"></script>
 
-<script  src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-<script  src="{{ asset('js/dataTables.bootstrap.min.js') }}"></script>
+<script  src="{{ asset('js/jquery.dataTables.js') }}"></script>
+
+<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script> -->
 @yield('script')
 <script>
       setTimeout(function() {
