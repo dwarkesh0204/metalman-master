@@ -26,3 +26,15 @@ Route::resource('employee','EmployeeController');
 Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController@listAjax']);
 Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
 Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
+
+Route::get('/activity', function () {
+    return view('activity.index');
+});
+
+Route::get('/create-invite', function () {
+    return view('createInvite.index');
+});
+
+Route::get('/venues', function () {
+    return view('venues.index');
+});

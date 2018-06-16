@@ -1,0 +1,250 @@
+@charset "UTF-8";
+/* CSS Document */
+/*! normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */article, aside, details, figcaption, figure, footer, header, hgroup, nav, section,
+* {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+/* Custom CSS */
+.login-page
+{
+	background-color: #fff;
+}
+html,body.login-page
+{
+	font-size: 16px;
+	line-height: 25px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	height: 100%;
+}
+.logo a
+{
+	display: block;
+}
+.logo a img
+{
+	max-width: 100%;
+	display: block;
+}
+.logo a:focus,.logo a:hover
+{
+	text-decoration: none;
+}
+.swiper-wrapper
+{
+	height: 100vh;
+}
+/*.swiper-slide
+{
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+	background-position: right center !important;
+}*/
+.green
+{
+   color: rgba(94,159,28,1);
+}
+#metalman .col-xl-5
+{
+	padding-left: 40px;
+	padding-right: 100px;
+	display: table;
+	height: 100vh;
+}
+.wrapper
+{
+	display: table-cell;
+	vertical-align: middle;
+}
+.title h1
+{
+	font-weight: bolder;
+	font-size: 28px;
+	margin-top: 0.67em;
+	margin-bottom: 1.5em;
+	letter-spacing: 1px;
+}
+.title br
+{
+	display: none;
+}
+.login-form form
+{
+	max-width: 400px;
+}
+.login-form .form-group
+{
+	margin: 0;
+}
+.login-form .form-control
+{
+	border-radius: 0;
+	margin: 0;
+	padding: 20px 18px;
+}
+
+.login-form .form-control:focus
+{
+	outline: none;
+	border-color:#ced4da;
+	box-shadow: none;
+}
+.login-form .form-group a
+{
+	color: #222;
+	margin-top: 1em;
+	font-weight: 600;
+	display: block;
+	cursor: pointer;
+}
+.reset-page .login-form .form-group p
+{
+	color: #222;
+	font-weight: 600;
+}
+.reset-page .login-form .form-group a,.reset-page .login-form .form-group p
+{
+	display: inline-block;
+}
+.reset-page .login-form .form-group a
+{
+	margin-left: 5px;
+	color: #163a8e;
+}
+.login-form .form-group a:hover,.login-form .form-group a:focus
+{
+	text-decoration: none;
+}
+.login-form .form-control.active
+{
+	border-left: 3px solid #163a8e;
+}
+.login-form .form-control.active:focus
+{
+	border-left-color: #163a8e !important;
+}
+.login-form .form-control:focus
+{
+	border-color: #A6A9AE !important;
+}
+.bottom-none
+{
+	border-bottom: none;
+}
+.login-form .btn
+{
+	background-color: #163a8e;
+	color: #fff;
+	margin: 1.5em 0;
+	width: 40%;
+	display: block;
+	padding: 0;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-radius: 5px;
+}
+.pin-protection
+{
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.pin-protection .form-group
+{
+	width: 16%;
+	margin-right: 10px;
+	float: left;
+}
+.pin-protection .form-group .form-control
+{
+	text-align: center;
+	
+	height: 64px;
+	
+}
+@media(max-width:1600px)
+{
+	#metalman .col-xl-5
+	{
+		padding-right: 70px;
+	}
+	.title h1
+	{
+		font-size: 23px;
+	}
+}
+@media(max-width:1400px)
+{
+	.title br
+	{
+		display: block;
+	}
+}
+@media(max-width:992px)
+{
+	body.login-page
+	{
+		overflow: auto;
+	}
+	.wrapper
+	{
+		display: block;
+		padding: 60px;
+		height: auto;
+	}
+	#metalman .col-xl-5
+	{
+		padding: 0 15px;
+		height: auto;
+		display: block;
+	}
+	
+}
+@media(max-width:600px)
+{
+	html,body
+	{
+		overflow-y: scroll;
+		overflow-x: hidden;
+	}
+	.wrapper
+	{
+		padding: 0;
+	}
+	.title h1 {
+    font-size: 20px;
+}
+	
+	.login-form form
+	{
+		max-width: 350px;
+	}
+	#metalman .col-xl-5
+	{
+		display: block;
+		height: auto;
+		padding: 50px 40px;
+	}
+	.swiper-wrapper
+	{
+		height: 50vh;
+	}
+	.swiper-button-prev{
+		    background-size: 144px 225px
+	}
+	.swiper-button-next
+	{
+		background-position: -72px -103px;
+	}
+}
+@media(max-width:375px)
+{
+	.login-form .form-control
+	{
+		font-size: 15px;
+		padding: 14px 18px;
+	}
+}
