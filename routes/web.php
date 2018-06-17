@@ -20,6 +20,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('site','SiteController');
+Route::get('siteDelete/{id}',['as'=>'site.siteDelete','uses'=>'SiteController@destroy']);
 Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax']);
 
 Route::resource('employee','EmployeeController');

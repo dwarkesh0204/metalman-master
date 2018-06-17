@@ -149,6 +149,9 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Site::find($id)->delete();
+
+        return redirect()->route('site.index')->with('flash_message','Site Deleted Successfully.');
+
     }
 }

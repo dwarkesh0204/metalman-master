@@ -69,8 +69,7 @@
 			                      		<th>Address</th>
 			                      		<th>City</th>
 			                      		<th>State</th>
-			                      	<!-- <th>Actions</th> -->
-			                      		<th>Created At</th>
+			                      		<th>Actions</th>
 			                    	</tr>
 			                  	</thead>
 			                  	<tbody>
@@ -118,7 +117,11 @@ jQuery(document).ready(function ($) {
                 {
                     var edit_route = '{!! route("site.edit", ":id") !!}';
                     edit_route = edit_route.replace(':id', full.id);
-                    returnStr = '<a href="#" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="#" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>'
+
+                    var delete_route = '{!! url("/siteDelete") !!}' +'/'+ full.id;
+                    //delete_route = delete_route.replace(':id', full.id);
+                    
+                    returnStr = '<a href="#" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>'
 
                     /*returnStr =  '<a href="'+edit_route+'"><button class="btn btn-primary btn-xs review-now">View Details</button></a><button type="submit" data-toggle="modal" href="#brand_form_modal" data-brand-id="'+full.id+'" data-brand-name="'+full.name+'" id="add_brand_receipt" class="btn btn-warning btn-xs">Add Receipt No</button>';*/
                 }
