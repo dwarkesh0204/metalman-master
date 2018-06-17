@@ -85,7 +85,7 @@ class SiteController extends Controller
         $site->updated_at = Carbon::now();
         $site->save();
 
-         return redirect()->route('site.index')->with('flash_message','Site created successfully');
+        return redirect()->route('site.index')->with('flash_message','Site created successfully');
 
     }
 
@@ -97,7 +97,7 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        //
+        print_r("sdfsdds"); exit;
     }
 
     /**
@@ -108,7 +108,15 @@ class SiteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = Site::find($id);
+
+        $site_list = Site::all()->pluck('name','name')->toArray();
+
+        $state = array('Maharashtra' => 'Maharashtra', 'Punjab' => 'Punjab', 'Rajasthan' => 'Rajasthan', 'Gujarat' => 'Gujarat', 'Arunachal Pradesh' => 'Arunachal Pradesh');
+
+        $city = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+
+        return view('site.edit', compact('state', 'city', 'item', 'site_list'));
     }
 
     /**
@@ -120,7 +128,17 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name'    => 'required',
+            'address' => 'required',
+            'state'   => 'required',
+            'city'    => 'required',
+        ]);
+        
+        // Update all data
+        Site::find($id)->update($request->all());
+
+        return redirect('site')->with('success','Site Updated Successfully.');
     }
 
     /**

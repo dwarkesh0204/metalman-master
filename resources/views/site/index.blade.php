@@ -108,14 +108,28 @@ jQuery(document).ready(function ($) {
             { data: 'address', name: 'address' },
             { data: 'state', name: 'state' },
             { data: 'city', name: 'city' },
-            { data: 'created_at', name: 'created_at'},
-            /*{ data: 'id', name: 'actions'},*/
+            { data: 'id', name: 'actions'},
         ],
         aoColumnDefs: [
-            {
-                
+        {
+            "aTargets": [ 5 ], // Column to target
+            "mRender": function ( data, type, full ) {
+                if(full.id)
+                {
+                    var edit_route = '{!! route("site.edit", ":id") !!}';
+                    edit_route = edit_route.replace(':id', full.id);
+                    returnStr = '<a href="#" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="#" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>'
+
+                    /*returnStr =  '<a href="'+edit_route+'"><button class="btn btn-primary btn-xs review-now">View Details</button></a><button type="submit" data-toggle="modal" href="#brand_form_modal" data-brand-id="'+full.id+'" data-brand-name="'+full.name+'" id="add_brand_receipt" class="btn btn-warning btn-xs">Add Receipt No</button>';*/
+                }
+                else {
+                    returnStr = '---';
+                }
+
+                return returnStr;
             }
-          ]
+        }
+    ]
     });
 });
 </script> 
