@@ -15,7 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Web service routes start
+Route::post('webservice', 'WebserviceController@index');
+
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
