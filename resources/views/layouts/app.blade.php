@@ -27,10 +27,12 @@
 <!-- BEGIN Custom CSS-->
 <!-- END Custom CSS-->
 </head>
+
 <body data-col="2-columns" class=" 2-columns dashboard">
-<div id="overlay"> <img src="{{asset('app-assets/img/preloader.gif')}}" alt=""> </div>
+<!-- <div id="overlay"> <img src="{{asset('app-assets/img/preloader.gif')}}" alt=""> </div> -->
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 <div class="wrapper nav-collapsed"> 
+@if(\Request::route()->getName() != "password.request")
   <!-- main menu--> 
   <!--.main-menu(class="#{menuColor} #{menuOpenType}", class=(menuShadow == true ? 'menu-shadow' : ''))-->
   <div data-active-color="white" data-background-color="white" data-image="{{asset('app-assets/img/sidebar-bg/01.jpg')}}" class="app-sidebar"> 
@@ -41,17 +43,33 @@
         <div class="logo-img"><img src="{{asset('app-assets/img/logo.png')}}"/></div>
         <span class="text align-middle"><img src="{{asset('app-assets/img/logo-new.png')}}" alt=""></span></a><a id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"><i data-toggle="collapsed" class="ft-toggle-left toggle-icon"></i></a><a id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none"><i class="ft-x"></i></a></div>
     </div>
+
     <!-- Sidebar Header Ends--> 
     <!-- / main menu header--> 
     <!-- main menu content-->
     <div class="sidebar-content">
       <div class="nav-container">
         <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
-            <li class="nav-item active"><a href="{{ url('/home') }}"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a> </li>
-            <li class="nav-item"><a href="{{ url('/site') }}"><i class="ft-sidebar"></i><span data-i18n="" class="menu-title">Sites</span></a> </li>
-            <li class="nav-item"><a href="{{ url('/employee') }}"><i class="ft-user"></i><span data-i18n="" class="menu-title">Employee</span></a> </li>
-            <li class="nav-item"><a href="{{ url('/activity') }}"><i class="ft-activity"></i><span data-i18n="" class="menu-title">Activity &amp; Report</span></a> </li>
-            <li class="nav-item"><a href="{{ url('/create-invite') }}"><i class="ft-inbox"></i><span data-i18n="" class="menu-title">Create Invite</span></a> </li>
+            @php
+              $active = (Request::segment(1) == 'home') ? 'active' : '';
+            @endphp
+            <li class="nav-item {{$active}}" ><a href="{{ url('/home') }}"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a> </li>
+            @php
+              $active = (Request::segment(1) == 'site') ? 'active' : '';
+            @endphp
+            <li class="nav-item {{$active}}"><a href="{{ url('/site') }}"><i class="ft-sidebar"></i><span data-i18n="" class="menu-title">Sites</span></a> </li>
+            @php
+              $active = (Request::segment(1) == 'employee') ? 'active' : '';
+            @endphp
+            <li class="nav-item {{$active}}"><a href="{{ url('/employee') }}"><i class="ft-user"></i><span data-i18n="" class="menu-title">Employee</span></a> </li>
+            @php
+              $active = (Request::segment(1) == 'activity') ? 'active' : '';
+            @endphp
+            <li class="nav-item {{$active}}"><a href="{{ url('/activity') }}"><i class="ft-activity"></i><span data-i18n="" class="menu-title">Activity &amp; Report</span></a> </li>
+            @php
+              $active = (Request::segment(1) == 'create-invite') ? 'active' : '';
+            @endphp
+            <li class="nav-item {{$active}}"><a href="{{ url('/create-invite') }}"><i class="ft-inbox"></i><span data-i18n="" class="menu-title">Create Invite</span></a> </li>
              <li class="nav-item"><a href="{{ url('/venues') }}"><i class="ft-map-pin"></i><span data-i18n="" class="menu-title">Venues</span></a> </li>
         </ul>
       </div>
@@ -86,8 +104,31 @@
       </div>
     </div>
   </nav>
+@endif
   <!-- Navbar (Header) Ends-->
-  
+  	@if(Session::has('flash_message'))
+	    <div class="alert alert-success alert-hideable">
+	        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	        {{ Session::get('flash_message') }}
+	    </div>
+	@endif
+	@if(Session::has('delete_message'))
+	    <div class="alert alert-danger alert-hideable">
+	        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	        {{ Session::get('delete_message') }}
+	    </div>
+	@endif
+	@if ($errors->any())
+	    <div class="alert alert-danger">
+	        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	        <strong>Whoops!</strong> There were some problems with your input.<br><br>
+	        <ul>
+	            @foreach ($errors->all() as $error)
+	                <li>{{ $error }}</li>
+	            @endforeach
+	        </ul>
+	    </div>
+	@endif
     <div class="main-panel">
         @yield('content')
     </div>
@@ -131,12 +172,16 @@
 <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script> -->
 @yield('script')
 <script>
-      setTimeout(function() {
-        $('#overlay').fadeOut();
-        $('#overlay').delay(150).fadeOut('slow');
-      }, 400);
+  	setTimeout(function() {
+    	$('#overlay').fadeOut();
+    	$('#overlay').delay(150).fadeOut('slow');
+  	}, 400);
 
-    </script> 
+    jQuery(document).ready(function() {
+        jQuery( ".alert-hideable" ).delay(3000).slideUp('slow');
+    })
+
+</script> 
 <!-- END PAGE LEVEL JS-->
 </body>
 </html>

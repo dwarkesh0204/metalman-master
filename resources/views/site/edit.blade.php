@@ -19,7 +19,7 @@
                   		<div class="col-md-12">
                     		<fieldset class="form-group">
                       			<label>Site Name</label>
-			                    {!! Form::select('name', (['' => 'Select Site'] + $site_list), null, array('class' => 'form-control', 'id' => 'site', 'data-bv-notempty-message'=>"Please Select Site")) !!}
+                      			<input type="text" class="form-control" id="sitename" name="name" value="{{ $item->name }}" placeholder="Enter Site Name">
                    			</fieldset>
                   		</div>
 		                <div class="col-md-6">

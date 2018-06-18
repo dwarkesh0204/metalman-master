@@ -70,7 +70,7 @@ class SiteController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required | unique:site,name',
             'address'=>'required',
             'state'=>'required',
             'city'=>'required',
@@ -129,7 +129,7 @@ class SiteController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name'    => 'required',
+            'name'    => 'required | unique:site,name,'.$id,
             'address' => 'required',
             'state'   => 'required',
             'city'    => 'required',
@@ -138,7 +138,7 @@ class SiteController extends Controller
         // Update all data
         Site::find($id)->update($request->all());
 
-        return redirect('site')->with('success','Site Updated Successfully.');
+        return redirect('site')->with('flash_message','Site Updated Successfully.');
     }
 
     /**

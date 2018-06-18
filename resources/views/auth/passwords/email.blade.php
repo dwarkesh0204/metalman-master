@@ -1,7 +1,19 @@
-@extends('layouts.app')
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reset Password | Metalman Auto</title>
+<link rel="shortcut icon" href="{{asset('/img/ico/favicon.png')}}">
+<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap-reset.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="{{asset('/css/swiper.min.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('/css/slider.css')}}" type="text/css">
+<link rel="stylesheet" href="{{asset('/css/custom.css')}}" type="text/css">
+</head>
 
-@section('content')
-
+<body class="login-page">
+<div id="overlay"> <img src="{{asset('/img/preloader.gif')}}" alt=""> </div>
 <body class="login-page">
 <div id="metalman">
     <div class="login-page reset-page">
@@ -54,19 +66,27 @@
         </div>
     </div>    
 </div>
-<script>
-var Swiper = new Swiper('.swiper-container', {
-      nextButton: '.swiper-button-next',
-  prevButton: '.swiper-button-prev',
- });
-</script>
-<script>
-      setTimeout(function() {
+<script src="{{ asset('js/core/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/core/popper.js') }}"></script>
+    <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/swiper.min.js') }}"></script>
+<script type = 'text/javascript'>
+    var Swiper = new Swiper('.swiper-container', {
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+    });
+
+    $(document).ready(function(){
+        $('.form-control').click(function() {
+            $('.form-control.active').removeClass('active');
+            $(this).addClass('active');
+        });
+    }); 
+
+    setTimeout(function() {
         $('#overlay').fadeOut();
         $('#overlay').delay(150).fadeOut('slow');
       }, 400);
-
-    </script> 
-    </body>
-
-@endsection
+</script>
+</body>
+</html>

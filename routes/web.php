@@ -11,8 +11,14 @@
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
-    return view('welcome');
+	if (Auth::check()) {
+         return Redirect::to('/home');
+    } else {
+         return view('welcome');
+    }
 });
 
 //Web service routes start
@@ -21,23 +27,25 @@ Route::post('webservice', 'WebserviceController@index');
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Site Routes
 Route::resource('site','SiteController');
 Route::get('siteDelete/{id}',['as'=>'site.siteDelete','uses'=>'SiteController@destroy']);
 Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax']);
 
+// Employee Routes
 Route::resource('employee','EmployeeController');
 Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController@listAjax']);
+Route::get('employeeDelete/{id}',['as'=>'employee.employeeDelete','uses'=>'EmployeeController@destroy']);
 Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
 Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
 
+// Temperary View Routes
 Route::get('/activity', function () {
     return view('activity.index');
 });
-
 Route::get('/create-invite', function () {
     return view('createInvite.index');
 });
-
 Route::get('/venues', function () {
     return view('venues.index');
 });
