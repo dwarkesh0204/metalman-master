@@ -100,7 +100,9 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = Employee::find($id);
+
+        return view('employee.show', compact('employee'));
     }
 
     /**
@@ -111,7 +113,11 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = Employee::find($id);
+        $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
+        $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+        
+        return view('employee.edit', compact('designation', 'location', 'employee'));
     }
 
     /**
@@ -123,7 +129,19 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'employee_name' => 'required',
+            'phone_number'=>'required',
+            'email'=>'required',
+            'designation'=>'required',
+            'location'=>'required',
+        ]);
+        
+        // Update all data
+        Employee::find($id)->update($request->all());
+
+        return redirect('employee')->with('flash_message','Employee Updated Successfully.');
+
     }
 
     /**

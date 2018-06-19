@@ -97,7 +97,9 @@ class SiteController extends Controller
      */
     public function show($id)
     {
-        print_r("sdfsdds"); exit;
+        $site = Site::find($id);
+
+        return view('site.show', compact('site'));
     }
 
     /**

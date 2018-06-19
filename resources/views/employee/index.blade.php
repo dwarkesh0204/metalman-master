@@ -180,8 +180,7 @@
                       <th>Email ID</th>
                       <th>Designation</th>
                       <th>Location</th>
-                      <th>Created At</th>
-                      <!-- <th>Actions</th> -->
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -223,13 +222,29 @@ jQuery(document).ready(function ($) {
             { data: 'email', name: 'email' },
             { data: 'designation', name: 'designation' },
             { data: 'location', name: 'location' },
-            { data: 'created_at', name: 'created_at'},
-            /*{ data: 'id', name: 'actions'},*/
+            { data: 'id', name: 'actions'},
         ],
         aoColumnDefs: [
-            {
-                
+        {
+            "aTargets": [ 6 ], // Column to target
+            "mRender": function ( data, type, full ) {
+                if(full.id)
+                {
+                    var edit_route = '{!! route("employee.edit", ":id") !!}';
+                    edit_route = edit_route.replace(':id', full.id);
+
+                    var delete_route = '{!! url("/employeeDelete") !!}' +'/'+ full.id;
+
+                    var employee_detail_route = '{!! url("/employee") !!}' +'/'+ full.id;
+                    returnStr = '<a href="#" class="danger" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin"> <i class="ft-user-plus font-medium-3 success"></i> </a><a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
+                }
+                else {
+                    returnStr = '---';
+                }
+
+                return returnStr;
             }
+        }
           ]
     });
 });
