@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\State;
+use App\Models\City;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use DB;
 
 class SiteController extends Controller
 {
@@ -27,11 +30,9 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $state = array('Maharashtra' => 'Maharashtra', 'Punjab' => 'Punjab', 'Rajasthan' => 'Rajasthan', 'Gujarat' => 'Gujarat', 'Arunachal Pradesh' => 'Arunachal Pradesh');
-
-        $city = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+        $state = State::select('id', 'name')->get()->toArray();
         
-        return view('site.index', compact('state', 'city'));
+        return view('site.index', compact('state'));
     }
 
     
@@ -54,11 +55,9 @@ class SiteController extends Controller
      */
     public function create()
     {
-        $state = array('Maharashtra' => 'Maharashtra', 'Punjab' => 'Punjab', 'Rajasthan' => 'Rajasthan', 'Gujarat' => 'Gujarat', 'Arunachal Pradesh' => 'Arunachal Pradesh');
+        $state = State::all()->pluck('name','id')->toArray();
 
-        $city = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
-
-        return view('site.create', compact('state', 'city'));
+        return view('site.create', compact('state'));
     }
 
     /**
@@ -76,11 +75,14 @@ class SiteController extends Controller
             'city'=>'required',
         ]);
 
+        $state = State::where('id', $request->state)->first();
+        $city = City::where('id', $request->city)->first();
+
         $site = new Site();
         $site->name       = $request->name;
         $site->address    = $request->address;
-        $site->state      = $request->state;
-        $site->city       = $request->city;
+        $site->state      = $state->name;
+        $site->city       = $city->name;
         $site->created_at = Carbon::now();
         $site->updated_at = Carbon::now();
         $site->save();
@@ -114,11 +116,9 @@ class SiteController extends Controller
 
         $site_list = Site::all()->pluck('name','name')->toArray();
 
-        $state = array('Maharashtra' => 'Maharashtra', 'Punjab' => 'Punjab', 'Rajasthan' => 'Rajasthan', 'Gujarat' => 'Gujarat', 'Arunachal Pradesh' => 'Arunachal Pradesh');
+        $state = State::select('id', 'name')->get()->toArray();
 
-        $city = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
-
-        return view('site.edit', compact('state', 'city', 'item', 'site_list'));
+        return view('site.edit', compact('state', 'item', 'site_list'));
     }
 
     /**
@@ -137,8 +137,18 @@ class SiteController extends Controller
             'city'    => 'required',
         ]);
         
+        $state = State::where('id', $request->state)->first();
+
+        $city = City::where('id', $request->city)->first();
+
+        $data = array(
+            'name'    => $request->name,
+            'address' => $request->address,
+            'state'   => $state->name,
+            'city'    => $city->name,
+        );
         // Update all data
-        Site::find($id)->update($request->all());
+        Site::find($id)->update($data);
 
         return redirect('site')->with('flash_message','Site Updated Successfully.');
     }
@@ -156,4 +166,15 @@ class SiteController extends Controller
         return redirect()->route('site.index')->with('flash_message','Site Deleted Successfully.');
 
     }
+
+    /**
+     * Get city list base on state.
+     */
+        public function getCityList(Request $request)
+    {
+        $cities = City::where("state_id", $request->state_id)->pluck("name","id");
+        
+        return response()->json($cities);
+    }
+
 }

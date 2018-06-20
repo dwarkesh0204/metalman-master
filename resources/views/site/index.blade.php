@@ -40,11 +40,17 @@
 			          	</div>
 			           	<div class="visitor-name">
 			           		<label>State</label> 
-			           		{!! Form::select('state', (['' => 'Select a State'] + $state), null, array('class' => 'form-control', 'id' => 'state', 'data-bv-notempty-message'=>"Please Select State")) !!}
+			           		<select name="state" id="state" class="form-control">
+        						<option value="">Select a State</option>
+        						@foreach($state as $value)
+        							<option value="{{$value['id']}}">{{$value['name']}}</option>
+        						@endforeach
+        					</select>
 			          	</div>
-			          	<div class="host-name">
+			          	<div class="host-name city-data">
 			            	<label>City</label>
-			            	{!! Form::select('city', (['' => 'Select a City'] + $city), null, array('class' => 'form-control', 'id' => 'city', 'data-bv-notempty-message'=>"Please Select City")) !!}
+			            	<select name="city" id="city" class="form-control">
+            				</select>
 			          	</div>
 			        </div>
 			        <div class="modal-footer">
@@ -105,8 +111,8 @@ jQuery(document).ready(function ($) {
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'address', name: 'address' },
-            { data: 'state', name: 'state' },
             { data: 'city', name: 'city' },
+            { data: 'state', name: 'state' },
             { data: 'id', name: 'actions'},
         ],
         aoColumnDefs: [
@@ -132,6 +138,31 @@ jQuery(document).ready(function ($) {
         }
     ]
     });
+
+    $("#city").append('<option value="">Select City</option>');
+    $('#state').on('change',function(){
+	    var stateID = $(this).val();
+
+	    if(stateID){
+	        $.ajax({
+	           type:"GET",
+	           url:"{{url('getCityList')}}?state_id="+stateID,
+	           success:function(res){               
+	            if(res){
+	                $("#city").empty();
+	                $("#city").append('<option value="">Select City</option>');
+	                $.each(res,function(key,value){
+	                    $("#city").append('<option value="'+key+'">'+value+'</option>');
+	                });
+	            }else{
+	               $("#city").empty();
+	        	}
+	        }
+	        });
+	    }else{
+	        $("#city").empty();
+	    }        
+   	});
 });
 </script> 
 @endsection

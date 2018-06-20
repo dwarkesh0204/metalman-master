@@ -39,6 +39,9 @@ Route::get('employeeDelete/{id}',['as'=>'employee.employeeDelete','uses'=>'Emplo
 Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
 Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
 
+// Get city list
+Route::get('getCityList','SiteController@getCityList');
+
 // Temperary View Routes
 Route::get('/activity', function () {
     return view('activity.index');

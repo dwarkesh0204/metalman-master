@@ -25,13 +25,19 @@
 		                <div class="col-md-6">
 		                    <fieldset class="form-group">
 		                    	<label>Select State</label>
-		                      	{!! Form::select('state', (['' => 'Select a State'] + $state), null, array('class' => 'form-control', 'id' => 'state', 'data-bv-notempty-message'=>"Please Select State")) !!}
+		                    	<select name="state" id="state" class="form-control">
+            						<option value="">Select a State</option>
+            						@foreach($state as $value)
+            							<option value="{{$value['id']}}" <?php if($value['name'] == $item->state){echo 'selected';}  ?>>{{$value['name']}}</option>
+            						@endforeach
+            					</select>
 		                    </fieldset>
 		                  </div>
 		                  <div class="col-md-6">
-		                    <fieldset class="form-group">
+		                    <fieldset class="form-group city-data" data-city="{{ $item->city }}">
 		                    	<label>Select City</label>
-			                     {!! Form::select('city', (['' => 'Select a City'] + $city), null, array('class' => 'form-control', 'id' => 'city', 'data-bv-notempty-message'=>"Please Select City")) !!}
+	                    	    <select name="city" id="city" class="form-control">
+            					</select>
 		                    </fieldset>
 		                  </div>
 		                  <div class="col-md-12">
@@ -69,12 +75,40 @@
 </div>
 @endsection
 @section('script')
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 jQuery(document).ready(function ($) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-</script>  -->
+
+    var city = $('.city-data').data("city");
+    $("#city").append('<option value="1" selected>'+city+'</option>');
+
+    $('#state').on('change',function(){
+	    var stateID = $(this).val();
+
+	    if(stateID){
+	        $.ajax({
+	           type:"GET",
+	           url:"{{url('getCityList')}}?state_id="+stateID,
+	           success:function(res){               
+	            if(res){
+	                $("#city").empty();
+	                $("#city").append('<option value="">Select City</option>');
+	                $.each(res,function(key,value){
+	                    $("#city").append('<option value="'+key+'">'+value+'</option>');
+	                });
+	            }else{
+	               $("#city").empty();
+	        	}
+	        }
+	        });
+	    }else{
+	        $("#city").empty();
+	    }        
+   	});
+});
+</script>
 @endsection

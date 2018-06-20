@@ -111,14 +111,14 @@ class Webservice extends Model
      * Use Get Site List.
      *
      * Request Object :
-     * {"task":"getSiteList","taskData":{"site_id":"1"}}
+     * {"task":"getSiteDetail","taskData":{"site_id":"1"}}
      *
      */
     public function getSiteDetail($TaskData)
     {
-        $siteDetail = Site::where('id', $TaskData->id)->get()->toArray();
+        $siteDetail = Site::where('id', $TaskData->site_id)->get()->toArray();
 
-        if ($siteData > 0) {
+        if ($siteDetail > 0) {
             $this->JsonArray['data']             = $siteDetail;
             $this->JsonArray['message']          = "Site Data List View Successfully";
             $this->JsonArray['status_code']      = 200;
@@ -194,7 +194,7 @@ class Webservice extends Model
     {
         $employeeDetail = Employee::where('id', $TaskData->employee_id)->get()->toArray();
 
-        if ($employeeDetail > 0) {
+        if (count($employeeDetail) > 0) {
             $this->JsonArray['data']             = $employeeDetail;
             $this->JsonArray['message']          = "Employee Data List View Successfully";
             $this->JsonArray['status_code']      = 200;
