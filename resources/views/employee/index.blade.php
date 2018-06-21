@@ -87,35 +87,42 @@
         </div>
       </div>
     </div>
-            <!-- Add as venue Admin -->
+    
+    <!-- Add as venue Admin -->
     <div class="modal fade text-left" id="addadmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <label class="modal-title text-text-bold-600" >Add as Venue Admin</label>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-          </div>
-          <form action="#">
-            <div class="modal-body">
-               <div class="visitor-name">
-                <label>Site</label>
-                <select class="form-control">
-                  <option>Select Site</option>
-                  <option>Metalman Auto Head Office</option>
-                  <option>Metalman Auto Head Office</option>
-                 <option>Metalman Auto Head Office</option>
-                  <option>Metalman Auto Head Office</option>
-                  <option>Metalman Auto Head Office</option>
-                </select>
-              </div>
+            <div class="modal-header">
+                <label class="modal-title text-text-bold-600" >Add as Venue Admin</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>
-            <div class="modal-footer">
-              <input type="submit" class="btn btn-success" value="Add">
-            </div>
-          </form>
+            <form action="#" method="POST" autocomplete="off">
+                <div class="modal-body">
+                    <div class="visitor-name">
+                        <label>Site</label>
+                        {!! Form::select('site', (['' => 'Select Site'] + $site), null, array('class' => 'form-control', 'id' => 'site_id', 'data-bv-notempty-message'=>"Please Select Site")) !!}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="button" class="btn btn-success" id="siteAdd" value="Add">
+                </div>
+            </form>
         </div>
       </div>
     </div>
+
+    <!-- Add as venue Admin message-->
+    <div class="modal fade text-left" id="addadmin-form-submit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="addadminFormMessage"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Remove as venue Admin -->
     <div class="modal fade text-left" id="removeadmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -236,7 +243,7 @@ jQuery(document).ready(function ($) {
                     var delete_route = '{!! url("/employeeDelete") !!}' +'/'+ full.id;
 
                     var employee_detail_route = '{!! url("/employee") !!}' +'/'+ full.id;
-                    returnStr = '<a href="#" class="danger" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin"> <i class="ft-user-plus font-medium-3 success"></i> </a><a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
+                    returnStr = '<a href="#" class="danger emplyee_id" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin" data-employeeid="'+full.id+'"> <i class="ft-user-plus font-medium-3 success"></i> </a><a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
                 }
                 else {
                     returnStr = '---';
@@ -247,6 +254,43 @@ jQuery(document).ready(function ($) {
         }
           ]
     });
+
+    var CSRF_TOKEN   = '{{ csrf_token() }}';
+
+    jQuery('#siteAdd').click(function (event) {
+        
+        var site_id     = $('#site_id').val();
+        var employee_id = $('.emplyee_id').data('employeeid');
+
+        if (site_id == "" || site_id == null)
+        {
+            alert("Please select site");
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '{!! route('employee.addSiteEmployee') !!}',
+            data: {
+                _token : CSRF_TOKEN,
+                site_id:site_id,
+                employee_id:employee_id,
+            },
+            dataType : 'JSON',
+            success: function( response ) {
+                if(response.success == "1"){
+                    $('#site_id').val("");
+                    $('#addadmin').modal('hide');
+                    $('.addadminFormMessage').html(response.msg);
+                    $('#addadmin-form-submit-modal').modal('show');
+                }else{
+                    $('#addadmin').modal('hide');
+                    $('.addadminFormMessage').html(response.msg);
+                    $('#addadmin-form-submit-modal').modal('show');
+                }
+            }
+        });
+    });
+
 });
 </script> 
 @endsection

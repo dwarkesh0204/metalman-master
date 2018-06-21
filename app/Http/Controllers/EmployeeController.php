@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Site;
+use App\Models\SiteEmployee;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -31,8 +33,10 @@ class EmployeeController extends Controller
         $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
 
         $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+
+        $site = Site::get()->pluck('name', 'id')->toArray();
         
-        return view('employee.index', compact('designation', 'location'));
+        return view('employee.index', compact('designation', 'location', 'site'));
     }
 
     
@@ -212,4 +216,38 @@ class EmployeeController extends Controller
         
         return redirect()->route('employee.index')->with('flash_message','Employee imported successfully.');  
     }
+
+    public function addSiteEmployee(Request $request)
+    {
+        if ($request->employee_id && $request->site_id) {
+            $employeeName = Employee::find($request->employee_id)->employee_name;
+            $emplyeeExsist = SiteEmployee::where('site_id', $request->site_id)->where('employee_id', $request->employee_id)->first();
+
+            if ($emplyeeExsist) 
+            {
+                $response = array(
+                    'msg' => '<b style="color:red;">'.$employeeName . ' is already assigned as a venue admin for this site.</b>',
+                );            
+            }
+            else 
+            {            
+                $siteEmployee = new SiteEmployee();
+                $siteEmployee->site_id      = $request->site_id;
+                $siteEmployee->employee_id  = $request->employee_id;
+                $siteEmployee->save();
+
+                $response = array(
+                    'success' => '1',
+                    'msg'     => '<b>'.$employeeName . ' is assigned successfully as a venue admin.</b>',
+                );    
+            }
+        }else{
+            $response = array(
+                'msg' => 'ERROR',
+            );
+        }
+
+        return json_encode($response);
+    }
+
 }

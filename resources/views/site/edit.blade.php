@@ -52,8 +52,9 @@
 		                      <div class="row site-admins">
 		                        <div class="col-md-2">
 		                            <ul>
-		                              <li>Emmie Strklet<a href="#"><i class="ft-user-minus"></i></a></li>
-		                              <li>Michael John<a href="#"><i class="ft-user-minus"></i></a></li>
+		                            	@foreach($siteEmployeeData as $siteEmployee)
+			                              	<li value="{{$siteEmployee->employee_id}}">{{$siteEmployee->employee_name}}<a href="#"><i class="ft-user-minus"></i></a></li>
+		                            	@endforeach
 		                            </ul>
 		                        </div>
 		                       

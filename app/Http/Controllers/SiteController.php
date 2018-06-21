@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Site;
+use App\Models\SiteEmployee;
+use App\Models\Employee;
 use App\Models\State;
 use App\Models\City;
 use Carbon\Carbon;
@@ -31,7 +33,7 @@ class SiteController extends Controller
     public function index()
     {
         $state = State::select('id', 'name')->get()->toArray();
-        
+
         return view('site.index', compact('state'));
     }
 
@@ -111,14 +113,20 @@ class SiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+       $siteEmployeeData = Employee::select('employee.id as employee_id','employee_name')->leftjoin('site_employee','site_employee.employee_id','=','Employee.id')->where('site_employee.site_id', $id)->get();
+
+        /*$siteEmployeeData = Site::whereHas('siteEmployees', function ($query) use ($id){
+                                $query->where('site_id' , $id);
+                            })->with('siteEmployees')->get();
+        */
         $item = Site::find($id);
 
         $site_list = Site::all()->pluck('name','name')->toArray();
 
         $state = State::select('id', 'name')->get()->toArray();
 
-        return view('site.edit', compact('state', 'item', 'site_list'));
+        return view('site.edit', compact('state', 'item', 'site_list', 'siteEmployeeData'));
     }
 
     /**

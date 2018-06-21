@@ -38,6 +38,7 @@ Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController
 Route::get('employeeDelete/{id}',['as'=>'employee.employeeDelete','uses'=>'EmployeeController@destroy']);
 Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
 Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
+Route::post('addSiteEmployee',['as'=>'employee.addSiteEmployee','uses'=>'EmployeeController@addSiteEmployee']);
 
 // Get city list
 Route::get('getCityList','SiteController@getCityList');
