@@ -31,6 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('site','SiteController');
 Route::get('siteDelete/{id}',['as'=>'site.siteDelete','uses'=>'SiteController@destroy']);
 Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax']);
+Route::post('removeSiteEmployee',['as'=>'site.removeSiteEmployee','uses'=>'SiteController@removeSiteEmployee']);
 
 // Employee Routes
 Route::resource('employee','EmployeeController');

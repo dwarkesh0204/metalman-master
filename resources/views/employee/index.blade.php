@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="main-content">
-  <div class="content-wrapper"> 
+  <div class="content-wrapper">
     <!-- Venue, Checked In Visitors, Checked In Members, Firelist -->
     <div class="row">
       <div class="col-md-4">
@@ -33,7 +33,7 @@
                   {{Form::file('employee_import_file',null,array('class' => 'form-control', 'accept' => '.xls,.xlsx'))}}
                 </fieldset>
                 <a href="{{asset('/sample_import.xls')}}">Import Sample File</a>
-              </div>          
+              </div>
             </div>
             <div class="modal-footer">
               <input type="submit" class="btn btn-success" value="Submit">
@@ -78,7 +78,7 @@
                 <label>Location</label>
                 {!! Form::select('location', (['' => 'Select Location'] + $location), null, array('class' => 'form-control', 'id' => 'location', 'data-bv-notempty-message'=>"Please Select Location")) !!}
               </div>
-             
+
             </div>
             <div class="modal-footer">
               <input type="submit" class="btn btn-success" value="Add Employee">
@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Add as venue Admin -->
     <div class="modal fade text-left" id="addadmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -106,6 +106,7 @@
                 <div class="modal-footer">
                   <input type="button" class="btn btn-success" id="siteAdd" value="Add">
                 </div>
+                <input type="hidden" class="form-control" id="employee_id" value="">
             </form>
         </div>
       </div>
@@ -200,9 +201,9 @@
       </div>
     </section>
   </div>
-  
-  <!-- Information List Layout --> 
-  
+
+  <!-- Information List Layout -->
+
 </div>
 @endsection
 @section('script')
@@ -243,7 +244,7 @@ jQuery(document).ready(function ($) {
                     var delete_route = '{!! url("/employeeDelete") !!}' +'/'+ full.id;
 
                     var employee_detail_route = '{!! url("/employee") !!}' +'/'+ full.id;
-                    returnStr = '<a href="#" class="danger emplyee_id" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin" data-employeeid="'+full.id+'"> <i class="ft-user-plus font-medium-3 success"></i> </a><a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
+                    returnStr = '<a href="#" class="danger employee_id" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin" data-employeeid="'+full.id+'"> <i class="ft-user-plus font-medium-3 success"></i> </a><a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
                 }
                 else {
                     returnStr = '---';
@@ -257,16 +258,23 @@ jQuery(document).ready(function ($) {
 
     var CSRF_TOKEN   = '{{ csrf_token() }}';
 
+    // Set Employee Id in Popup
+    $(document).on("click", ".employee_id", function(event){
+        var employee_id = $(this).data('employeeid'); //get employee id
+        $('#employee_id').val(employee_id); //set employee id
+    });
+
     jQuery('#siteAdd').click(function (event) {
-        
-        var site_id     = $('#site_id').val();
-        var employee_id = $('.emplyee_id').data('employeeid');
+
+		var site_id     = $('#site_id').val();
+		var employee_id = $('#employee_id').val();
 
         if (site_id == "" || site_id == null)
         {
             alert("Please select site");
         }
 
+        $('#site_id').val("");
         $.ajax({
             type: "POST",
             url: '{!! route('employee.addSiteEmployee') !!}',
@@ -292,5 +300,5 @@ jQuery(document).ready(function ($) {
     });
 
 });
-</script> 
+</script>
 @endsection

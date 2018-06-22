@@ -37,7 +37,7 @@ class SiteController extends Controller
         return view('site.index', compact('state'));
     }
 
-    
+
     public function listAjax(Request $request)
     {
 
@@ -113,18 +113,14 @@ class SiteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
-       $siteEmployeeData = Employee::select('employee.id as employee_id','employee_name')->leftjoin('site_employee','site_employee.employee_id','=','Employee.id')->where('site_employee.site_id', $id)->get();
-
-        /*$siteEmployeeData = Site::whereHas('siteEmployees', function ($query) use ($id){
+    {
+        $siteEmployeeData = Site::whereHas('siteEmployees.employeeDetail', function ($query) use ($id){
                                 $query->where('site_id' , $id);
-                            })->with('siteEmployees')->get();
-        */
-        $item = Site::find($id);
+                            })->with('siteEmployees.employeeDetail')->first();
 
+        $item      = Site::find($id);
         $site_list = Site::all()->pluck('name','name')->toArray();
-
-        $state = State::select('id', 'name')->get()->toArray();
+        $state     = State::select('id', 'name')->get()->toArray();
 
         return view('site.edit', compact('state', 'item', 'site_list', 'siteEmployeeData'));
     }
@@ -144,7 +140,7 @@ class SiteController extends Controller
             'state'   => 'required',
             'city'    => 'required',
         ]);
-        
+
         $state = State::where('id', $request->state)->first();
 
         $city = City::where('id', $request->city)->first();
@@ -181,8 +177,33 @@ class SiteController extends Controller
         public function getCityList(Request $request)
     {
         $cities = City::where("state_id", $request->state_id)->pluck("name","id");
-        
+
         return response()->json($cities);
+    }
+
+    /**
+     * Remove site admin
+     */
+    public function removeSiteEmployee(Request $request)
+    {
+        if ($request->employee_id && $request->site_id) {
+
+            SiteEmployee::where('site_id', $request->site_id)->where('employee_id', $request->employee_id)->delete();
+
+            $employeeName = Employee::find($request->employee_id)->employee_name;
+
+            $response = array(
+                'success' => '1',
+                'msg'     => '<b>'.$employeeName . ' is removed successfully as a venue admin.</b>',
+            );
+
+        }else{
+            $response = array(
+                'msg' => 'ERROR',
+            );
+        }
+
+        return json_encode($response);
     }
 
 }

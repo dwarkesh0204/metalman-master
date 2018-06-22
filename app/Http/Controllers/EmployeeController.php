@@ -35,11 +35,11 @@ class EmployeeController extends Controller
         $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
 
         $site = Site::get()->pluck('name', 'id')->toArray();
-        
+
         return view('employee.index', compact('designation', 'location', 'site'));
     }
 
-    
+
     public function listAjax(Request $request)
     {
 
@@ -120,7 +120,7 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
         $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
         $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
-        
+
         return view('employee.edit', compact('designation', 'location', 'employee'));
     }
 
@@ -140,7 +140,7 @@ class EmployeeController extends Controller
             'designation'=>'required',
             'location'=>'required',
         ]);
-        
+
         // Update all data
         Employee::find($id)->update($request->all());
 
@@ -213,8 +213,8 @@ class EmployeeController extends Controller
                 return redirect()->route('employee.index')->with('flash_message','Please Insert Excel File.');
             }
         }
-        
-        return redirect()->route('employee.index')->with('flash_message','Employee imported successfully.');  
+
+        return redirect()->route('employee.index')->with('flash_message','Employee imported successfully.');
     }
 
     public function addSiteEmployee(Request $request)
@@ -223,14 +223,14 @@ class EmployeeController extends Controller
             $employeeName = Employee::find($request->employee_id)->employee_name;
             $emplyeeExsist = SiteEmployee::where('site_id', $request->site_id)->where('employee_id', $request->employee_id)->first();
 
-            if ($emplyeeExsist) 
+            if ($emplyeeExsist)
             {
                 $response = array(
                     'msg' => '<b style="color:red;">'.$employeeName . ' is already assigned as a venue admin for this site.</b>',
-                );            
+                );
             }
-            else 
-            {            
+            else
+            {
                 $siteEmployee = new SiteEmployee();
                 $siteEmployee->site_id      = $request->site_id;
                 $siteEmployee->employee_id  = $request->employee_id;
@@ -239,7 +239,7 @@ class EmployeeController extends Controller
                 $response = array(
                     'success' => '1',
                     'msg'     => '<b>'.$employeeName . ' is assigned successfully as a venue admin.</b>',
-                );    
+                );
             }
         }else{
             $response = array(

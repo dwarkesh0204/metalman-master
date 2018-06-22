@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="main-content">
-    <div class="content-wrapper"> 
+    <div class="content-wrapper">
         <!-- Venue, Checked In Visitors, Checked In Members, Firelist -->
         <div class="row mb-3">
           	<div class="col-md-12">
             	<div class="content-header">Edit Site</div>
           	</div>
         </div>
-        
+
         <section class="edit-site">
           	<div class="card">
             	<div class="card-body">
@@ -52,12 +52,17 @@
 		                      <div class="row site-admins">
 		                        <div class="col-md-2">
 		                            <ul>
-		                            	@foreach($siteEmployeeData as $siteEmployee)
-			                              	<li value="{{$siteEmployee->employee_id}}">{{$siteEmployee->employee_name}}<a href="#"><i class="ft-user-minus"></i></a></li>
-		                            	@endforeach
+		                            	@if(count($siteEmployeeData['siteEmployees']) > 0)
+			                            	@foreach($siteEmployeeData['siteEmployees'] as $siteEmployee)
+				                              	<li id="employee_id" value="{{$siteEmployee['employeeDetail']['id']}}">{{$siteEmployee['employeeDetail']['employee_name']}}<a href="#"><i class="ft-user-minus removedEmployee" data-employeeid="{{$siteEmployee['employeeDetail']['id']}}"></i></a></li>
+			                            	@endforeach
+			                            @else
+			                            	<li>------</li>
+			                            @endif
+
 		                            </ul>
 		                        </div>
-		                       
+
 		                      </div>
 		                    </fieldset>
 		                  </div>
@@ -72,7 +77,19 @@
            		</div>
           	</div>
         </section>
-    </div>      
+    </div>
+</div>
+
+<!-- Add as venue Admin message-->
+<div class="modal fade text-left" id="remove-employee-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="removeMessage"></div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+    </div>
+  </div>
 </div>
 @endsection
 @section('script')
@@ -94,7 +111,7 @@ jQuery(document).ready(function ($) {
 	        $.ajax({
 	           type:"GET",
 	           url:"{{url('getCityList')}}?state_id="+stateID,
-	           success:function(res){               
+	           success:function(res){
 	            if(res){
 	                $("#city").empty();
 	                $("#city").append('<option value="">Select City</option>');
@@ -108,8 +125,34 @@ jQuery(document).ready(function ($) {
 	        });
 	    }else{
 	        $("#city").empty();
-	    }        
+	    }
    	});
+
+   	jQuery('.removedEmployee').click(function (event) {
+		var site_id     = {{ $item->id }};
+		var employee_id = $(this).data('employeeid');
+		var CSRF_TOKEN  = '{{ csrf_token() }}';
+        $.ajax({
+            type: "POST",
+            url: '{!! route('site.removeSiteEmployee') !!}',
+            data: {
+                _token : CSRF_TOKEN,
+                site_id:site_id,
+                employee_id:employee_id,
+            },
+            dataType : 'JSON',
+            success: function( response ) {
+                if(response.success == "1"){
+                    $('.removeMessage').html(response.msg);
+                    $('#remove-employee-modal').modal('show');
+                    location.reload();
+                }else{
+                    $('.removeMessage').html(response.msg);
+                    $('#remove-employee-modal').modal('show');
+                }
+            }
+        });
+    });
 });
 </script>
 @endsection
