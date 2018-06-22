@@ -30,11 +30,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
-
-        $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
-
-        $site = Site::get()->pluck('name', 'id')->toArray();
+        $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');   
+        $location    = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+        $site        = Site::get()->pluck('name', 'id')->toArray();
 
         return view('employee.index', compact('designation', 'location', 'site'));
     }
@@ -45,7 +43,20 @@ class EmployeeController extends Controller
 
         if (\Request::ajax())
         {
-            return DataTables::of(Employee::orderBy('id','DESC')->get())->make(true);
+            $employee = Employee::orderBy('id','DESC')->get();
+            
+            return DataTables::of($employee)
+                ->addColumn('addSiteAdmin', function ($employee) {
+                    $site_id = 0;
+                    $siteEmployeeData = SiteEmployee::where('employee_id', $employee->id)->first();
+                    if($siteEmployeeData)
+                    {
+                        $site_id = $siteEmployeeData->site_id;
+                    }
+                    return $site_id;
+                })
+                ->rawColumns(['addSiteAdmin'])
+                ->make(true);
         }
         else
         {
@@ -60,8 +71,7 @@ class EmployeeController extends Controller
     public function create()
     {
         $designation = array('Head' => 'Head', 'Supervisor' => 'Supervisor', 'Operator' => 'Operator');
-
-        $location = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
+        $location    = array('Mumbai' => 'Mumbai', 'Bangalore' => 'Bangalore', 'Chennai' => 'Chennai', 'Lucknow' => 'Lucknow', 'Indore' => 'Indore');
 
         return view('employee.create', compact('designation', 'location'));
     }
@@ -76,10 +86,10 @@ class EmployeeController extends Controller
     {
         $this->validate($request, [
             'employee_name' => 'required',
-            'phone_number'=>'required',
-            'email'=>'required',
-            'designation'=>'required',
-            'location'=>'required',
+            'phone_number'  => 'required',
+            'email'         => 'required',
+            'designation'   => 'required',
+            'location'      => 'required',
         ]);
 
         $employee = new Employee();
@@ -250,4 +260,52 @@ class EmployeeController extends Controller
         return json_encode($response);
     }
 
+    /**
+     * Remove site admin
+     */
+    public function removeSiteEmployee(Request $request)
+    {
+        if ($request->employee_id) {
+            $siteEmployeeData = SiteEmployee::where('employee_id', $request->employee_id)->first();
+            $employeeName     = Employee::find($request->employee_id)->employee_name;
+
+            SiteEmployee::where('employee_id', $request->employee_id)->where('site_id', $siteEmployeeData->site_id)->delete();
+
+            $response = array(
+                'success'  => '1',
+                'msg'      => '<b>'.$employeeName . ' is removed successfully as a venue admin.</b>',
+            );
+
+        }else{
+            $response = array(
+                'msg' => 'ERROR',
+            );
+        }
+
+        return json_encode($response);
+    }
+
+    /**
+     * Get site name
+     */
+    public function getSiteName(Request $request)
+    {
+        if ($request->employee_id) {
+
+            $siteEmployeeData = SiteEmployee::where('employee_id', $request->employee_id)->first();
+            $siteName         = Site::find($siteEmployeeData->site_id)->name;
+            
+            $response = array(
+                'success'  => '1',
+                'msg'      => '<b>'.$siteName.'</b>',
+            );
+
+        }else{
+            $response = array(
+                'msg' => 'ERROR',
+            );
+        }
+
+        return json_encode($response);
+    }
 }

@@ -103,7 +103,11 @@ class SiteController extends Controller
     {
         $site = Site::find($id);
 
-        return view('site.show', compact('site'));
+        $siteEmployeeData = Site::whereHas('siteEmployees.employeeDetail', function ($query) use ($id){
+                                $query->where('site_id' , $id);
+                            })->with('siteEmployees.employeeDetail')->first();
+
+        return view('site.show', compact('site', 'siteEmployeeData'));
     }
 
     /**

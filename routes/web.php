@@ -40,6 +40,8 @@ Route::get('employeeDelete/{id}',['as'=>'employee.employeeDelete','uses'=>'Emplo
 Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
 Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
 Route::post('addSiteEmployee',['as'=>'employee.addSiteEmployee','uses'=>'EmployeeController@addSiteEmployee']);
+Route::post('employee/removeSiteEmployee',['as'=>'employee.removeSiteEmployee','uses'=>'EmployeeController@removeSiteEmployee']);
+Route::post('getSiteName',['as'=>'employee.getSiteName','uses'=>'EmployeeController@getSiteName']);
 
 // Get city list
 Route::get('getCityList','SiteController@getCityList');

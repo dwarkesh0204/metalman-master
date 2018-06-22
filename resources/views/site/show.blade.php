@@ -44,8 +44,13 @@
 		                      <div class="row site-admins">
 		                        <div class="col-md-2">
 		                            <ul>
-		                              <li>Emmie Strklet<a href="#"><i class="ft-user-minus"></i></a></li>
-		                              <li>Michael John<a href="#"><i class="ft-user-minus"></i></a></li>
+		                            	@if(count($siteEmployeeData['siteEmployees']) > 0)
+			                            	@foreach($siteEmployeeData['siteEmployees'] as $siteEmployee)
+				                              	<li id="employee_id" value="{{$siteEmployee['employeeDetail']['id']}}">{{$siteEmployee['employeeDetail']['employee_name']}}<a href="#"></i></a></li>
+			                            	@endforeach
+			                            @else
+			                            	<li>------</li>
+			                            @endif
 		                            </ul>
 		                        </div>
 		                       

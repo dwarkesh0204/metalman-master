@@ -124,6 +124,18 @@
       </div>
     </div>
 
+    <!-- Add as venue Admin message-->
+    <div class="modal fade text-left" id="removeAdmin-form-submit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="removeAdminFormMessage"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Remove as venue Admin -->
     <div class="modal fade text-left" id="removeadmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -135,15 +147,14 @@
           <form action="#">
             <div class="modal-body">
                <div class="visitor-name">
-                <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
-                          <input id="notifications1" checked type="checkbox" class="custom-control-input cz-bg-image-display">
-                          <label for="notifications1" class="custom-control-label">Metalman Auto Head Office</label>
-                    </div>
+                <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0 siteName">
+                </div>
               </div>
             </div>
             <div class="modal-footer">
-              <input type="submit" class="btn btn-success" value="Remove">
+              <input type="button" class="btn btn-success" id="removedSiteEmployee" value="Remove">
             </div>
+            <input type="hidden" class="form-control" id="employee_id" value="">
           </form>
         </div>
       </div>
@@ -205,6 +216,19 @@
   <!-- Information List Layout -->
 
 </div>
+
+<!-- Remove as venue Admin message-->
+<div class="modal fade text-left" id="remove-employee-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="removeMessage"></div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+        </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 @section('script')
 <script type="text/javascript">
@@ -244,7 +268,13 @@ jQuery(document).ready(function ($) {
                     var delete_route = '{!! url("/employeeDelete") !!}' +'/'+ full.id;
 
                     var employee_detail_route = '{!! url("/employee") !!}' +'/'+ full.id;
-                    returnStr = '<a href="#" class="danger employee_id" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin" data-employeeid="'+full.id+'"> <i class="ft-user-plus font-medium-3 success"></i> </a><a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
+
+                    if (full.addSiteAdmin) {
+                        returnStr = '<a href="#" class="danger remove_employee_id" data-original-title="" title="Remove as Venue Admin" data-toggle="modal" data-target="#removeadmin" data-employeeid="'+full.id+'"><i class="ft-user-minus font-medium-3 success removedEmployee" data-employeeid="'+full.id+'" data-siteid="'+full.addSiteAdmin+'"></i> </a>';    
+                    }else{
+                        returnStr = '<a href="#" class="danger employee_id" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin" data-employeeid="'+full.id+'"><i class="ft-user-plus font-medium-3 success addEmployee"></i> </a>';
+                    }
+                    returnStr += '<a href="'+employee_detail_route+'" class="danger" data-original-title="" title=""> <i class="ft-eye font-medium-3 success"></i> </a><a href="'+edit_route+'" class="danger" data-original-title="" title=""> <i class="ft-edit font-medium-3 success"></i> </a><a href="'+delete_route+'" class="danger" data-original-title="" title=""> <i class="ft-trash-2 font-medium-3 danger"></i> </a>';
                 }
                 else {
                     returnStr = '---';
@@ -290,10 +320,65 @@ jQuery(document).ready(function ($) {
                     $('#addadmin').modal('hide');
                     $('.addadminFormMessage').html(response.msg);
                     $('#addadmin-form-submit-modal').modal('show');
+                    //$(this).removeClass("ft-user-plus");
+                    //$(this).addClass("ft-user-minus");
+                    location.reload();
                 }else{
                     $('#addadmin').modal('hide');
                     $('.addadminFormMessage').html(response.msg);
                     $('#addadmin-form-submit-modal').modal('show');
+                }
+            }
+        });
+    });
+
+    // Set Employee Id in Popup
+    $(document).on("click", ".remove_employee_id", function(event){
+        var removed_employee_id = $(this).data('employeeid'); //get employee id
+        $('#employee_id').val(removed_employee_id); //set employee id
+        $.ajax({
+            type: "POST",
+            url: '{!! route('employee.getSiteName') !!}',
+            data: {
+                _token : CSRF_TOKEN,
+                employee_id:removed_employee_id,
+            },
+            dataType : 'JSON',
+            success: function( response ) {
+                
+                if(response.success == "1"){
+                    $('.siteName').html(response.msg);
+                }
+            }
+        });
+    
+        $('#removed_employee_id').val(removed_employee_id); //set employee id
+    });
+
+    jQuery('#removedSiteEmployee').click(function (event) {
+        var employee_id = $('#employee_id').val();
+
+        $.ajax({
+            type: "POST",
+            url: '{!! route('employee.removeSiteEmployee') !!}',
+            data: {
+                _token : CSRF_TOKEN,
+                employee_id:employee_id,
+            },
+            dataType : 'JSON',
+            success: function( response ) {
+                
+                if(response.success == "1"){
+                    $('#removeadmin').modal('hide');
+                    $('.removeAdminFormMessage').html(response.msg);
+                    $('#removeAdmin-form-submit-modal').modal('show');
+                    //$("i.removedEmployee").removeClass("ft-user-minus");
+                    //$("i.removedEmployee").addClass("ft-user-plus");
+                    location.reload();
+                }else{
+                    $('#removeadmin').modal('hide');
+                    $('.removeAdminFormMessage').html(response.msg);
+                    $('#removeAdmin-form-submit-modal').modal('show');
                 }
             }
         });
