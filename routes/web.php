@@ -27,32 +27,40 @@ Route::post('webservice', 'WebserviceController@index');
 Route::get('logout', 'Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Site Routes
-Route::resource('site','SiteController');
-Route::get('siteDelete/{id}',['as'=>'site.siteDelete','uses'=>'SiteController@destroy']);
-Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax']);
-Route::post('removeSiteEmployee',['as'=>'site.removeSiteEmployee','uses'=>'SiteController@removeSiteEmployee']);
+Route::group(['middleware' => ['auth']], function() {
 
-// Employee Routes
-Route::resource('employee','EmployeeController');
-Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController@listAjax']);
-Route::get('employeeDelete/{id}',['as'=>'employee.employeeDelete','uses'=>'EmployeeController@destroy']);
-Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
-Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
-Route::post('addSiteEmployee',['as'=>'employee.addSiteEmployee','uses'=>'EmployeeController@addSiteEmployee']);
-Route::post('employee/removeSiteEmployee',['as'=>'employee.removeSiteEmployee','uses'=>'EmployeeController@removeSiteEmployee']);
-Route::post('getSiteName',['as'=>'employee.getSiteName','uses'=>'EmployeeController@getSiteName']);
+	// Site Routes
+	Route::resource('site','SiteController');
+	Route::get('siteDelete/{id}',['as'=>'site.siteDelete','uses'=>'SiteController@destroy']);
+	Route::get('siteList',['as'=>'site.listAjax','uses'=>'SiteController@listAjax']);
+	Route::post('removeSiteEmployee',['as'=>'site.removeSiteEmployee','uses'=>'SiteController@removeSiteEmployee']);
 
-// Get city list
-Route::get('getCityList','SiteController@getCityList');
+	// Employee Routes
+	Route::resource('employee','EmployeeController');
+	Route::get('employeeList',['as'=>'employee.listAjax','uses'=>'EmployeeController@listAjax']);
+	Route::get('employeeDelete/{id}',['as'=>'employee.employeeDelete','uses'=>'EmployeeController@destroy']);
+	Route::get('getExport',['as'=>'employee.getExport','uses'=>'EmployeeController@getExport']);
+	Route::post('importEmployeeSave',['as'=>'employee.importEmployeeSave','uses'=>'EmployeeController@importEmployeeSave']);
+	Route::post('addSiteEmployee',['as'=>'employee.addSiteEmployee','uses'=>'EmployeeController@addSiteEmployee']);
+	Route::post('employee/removeSiteEmployee',['as'=>'employee.removeSiteEmployee','uses'=>'EmployeeController@removeSiteEmployee']);
+	Route::post('getSiteName',['as'=>'employee.getSiteName','uses'=>'EmployeeController@getSiteName']);
 
-// Temperary View Routes
-Route::get('/activity', function () {
-    return view('activity.index');
-});
-Route::get('/create-invite', function () {
-    return view('createInvite.index');
-});
-Route::get('/venues', function () {
-    return view('venues.index');
+	// User Routes
+	Route::resource('User','UserController');
+	Route::get('profile',['as'=>'user.profile', 'uses'=>'UserController@profile']);
+
+	// Get city list
+	Route::get('getCityList','SiteController@getCityList');
+
+	// Temperary View Routes
+	Route::get('/activity', function () {
+	    return view('activity.index');
+	});
+	Route::get('/create-invite', function () {
+	    return view('createInvite.index');
+	});
+	Route::get('/venues', function () {
+	    return view('venues.index');
+	});
+
 });

@@ -95,7 +95,7 @@
             <li class="dropdown nav-item"><a id="dropdownBasic3" href="#" data-toggle="dropdown" class="nav-link position-relative dropdown-toggle" aria-expanded="false"><i class="ft-user font-medium-3 blue-grey darken-4"></i>
               <p class="d-none">User Settings</p>
               </a>
-              <div ngbdropdownmenu="" aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-right"><a href="profile.html" class="dropdown-item py-1"><i class="ft-user mr-2"></i><span>Profile</span></a>
+              <div ngbdropdownmenu="" aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-right"><a href="{{url('profile')}}" class="dropdown-item py-1"><i class="ft-user mr-2"></i><span>Profile</span></a>
                 <div class="dropdown-divider"></div>
                 <a href="{{url('/logout')}}" class="dropdown-item"><i class="ft-power mr-2"></i><span>Logout</span></a> </div>
             </li>
