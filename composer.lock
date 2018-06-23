@@ -4,9 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8a914c57d7dd9b3fbcde60c3769b6a87",
-    "content-hash": "9b5c10a166547078539ca352bb1084c2",
+    "hash": "90f07e1cde7d1d2d5a1343627bb567a7",
+    "content-hash": "af2a697a05806fc07a7888de0c0d2a8a",
     "packages": [
+        {
+            "name": "aginev/login-activity",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aginev/login-activity.git",
+                "reference": "0190f0145b1de391b6bd7ecb51399254d73a1921"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aginev/login-activity/zipball/0190f0145b1de391b6bd7ecb51399254d73a1921",
+                "reference": "0190f0145b1de391b6bd7ecb51399254d73a1921",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aginev\\LoginActivity\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Atanas Ginev",
+                    "email": "naskospam@gmail.com"
+                }
+            ],
+            "description": "Track users login activity for Laravel 5",
+            "homepage": "http://aginev.com",
+            "keywords": [
+                "Laravel 5 login activity",
+                "login activity",
+                "login activity for Laravel 5"
+            ],
+            "time": "2016-02-04 12:22:42"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",

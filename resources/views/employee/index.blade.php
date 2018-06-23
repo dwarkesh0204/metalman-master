@@ -270,7 +270,7 @@ jQuery(document).ready(function ($) {
                     var employee_detail_route = '{!! url("/employee") !!}' +'/'+ full.id;
 
                     if (full.addSiteAdmin) {
-                        returnStr = '<a href="#" class="danger remove_employee_id" data-original-title="" title="Remove as Venue Admin" data-toggle="modal" data-target="#removeadmin" data-employeeid="'+full.id+'"><i class="ft-user-minus font-medium-3 success removedEmployee" data-employeeid="'+full.id+'" data-siteid="'+full.addSiteAdmin+'"></i> </a>';    
+                        returnStr = '<a href="#" class="danger remove_employee_id" data-original-title="" title="Remove as Venue Admin" data-toggle="modal" data-target="#removeadmin" data-employeeid="'+full.id+'"><i class="ft-user-minus font-medium-3 success removedEmployee" data-employeeid="'+full.id+'" data-siteid="'+full.addSiteAdmin+'"></i> </a>';
                     }else{
                         returnStr = '<a href="#" class="danger employee_id" data-original-title="" title="Add as Venue Admin" data-toggle="modal" data-target="#addadmin" data-employeeid="'+full.id+'"><i class="ft-user-plus font-medium-3 success addEmployee"></i> </a>';
                     }
@@ -345,13 +345,13 @@ jQuery(document).ready(function ($) {
             },
             dataType : 'JSON',
             success: function( response ) {
-                
+
                 if(response.success == "1"){
                     $('.siteName').html(response.msg);
                 }
             }
         });
-    
+
         $('#removed_employee_id').val(removed_employee_id); //set employee id
     });
 
@@ -367,7 +367,7 @@ jQuery(document).ready(function ($) {
             },
             dataType : 'JSON',
             success: function( response ) {
-                
+
                 if(response.success == "1"){
                     $('#removeadmin').modal('hide');
                     $('.removeAdminFormMessage').html(response.msg);

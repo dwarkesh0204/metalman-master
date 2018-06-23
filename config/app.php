@@ -167,6 +167,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         Zizaco\Entrust\EntrustServiceProvider::class,
+
+        Aginev\LoginActivity\LoginActivityServiceProvider::class,
     ],
 
     /*
