@@ -168,7 +168,6 @@ return [
 
         Zizaco\Entrust\EntrustServiceProvider::class,
 
-        Aginev\LoginActivity\LoginActivityServiceProvider::class,
     ],
 
     /*
